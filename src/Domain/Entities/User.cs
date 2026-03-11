@@ -1,5 +1,4 @@
 using Domain.Types;
-
 namespace Domain.Entities;
 
 public class User : IEntity, ISoftDeletedEntity, ITimestampedEntity

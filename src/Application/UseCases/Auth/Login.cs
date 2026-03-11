@@ -2,7 +2,7 @@ using Application.DTOs;
 using Domain.Services;
 using Domain.Types;
 
-namespace Application.UseCases;
+namespace Application.UseCases.Auth;
 
 public class LoginUseCase : IUseCase<LoginDTO, string>
 {
