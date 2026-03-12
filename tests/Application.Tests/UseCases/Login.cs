@@ -1,4 +1,5 @@
 ﻿using Application.Mocks.Entities;
+using Domain.Entities;
 
 namespace Application.Tests;
 

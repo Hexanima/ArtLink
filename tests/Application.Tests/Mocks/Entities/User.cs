@@ -1,3 +1,5 @@
+using Domain.Entities;
+
 namespace Application.Mocks.Entities;
 
 public static class MockUser
@@ -6,6 +8,7 @@ public static class MockUser
     {
         return new()
         {
+            FullName = "John Doe",
             Email = "test@test.com",
             HashedPassword = "a",
             UserName = "JohnDoe123",
