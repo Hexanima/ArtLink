@@ -4,13 +4,15 @@ using Domain.Entities;
 using Application.UseCases;
 using Domain.Services;
 
+namespace Test.Services;
+
 public class DeleteArtworkUseCaseTest
 {
     [Fact]
     public async Task Should_Set_DeletedAt_When_Artwork_Is_Deleted()
     {
+        // Arrange
         var artworkId = Guid.NewGuid();
-
         var artwork = new Artwork
         {
             Id = artworkId,
@@ -25,17 +27,17 @@ public class DeleteArtworkUseCaseTest
             DeletedAt = null
         };
 
-        var repoMock = new Mock<IService<Artwork>>();
+        var mockRepo = new Mock<IRepository<Artwork>>();
+        mockRepo.Setup(r => r.GetById(artworkId)).ReturnsAsync(artwork);
+        mockRepo.Setup(r => r.Update(It.IsAny<Artwork>(), artworkId))
+                .Callback<Artwork, Guid>((updated, id) => artwork = updated)
+                .Returns(Task.CompletedTask);
 
-                Console.WriteLine($"AAAAAAAAAAAAAA-----------------------------{repoMock.Object}");
+        var service = new MockService<Artwork>(mockRepo.Object);
+        var useCase = new DeleteArtworkUseCase(service);
 
+        await useCase.Execute(artworkId);
 
-        var result = new DeleteArtworkUseCase(repoMock.Object);
-
-        await result.Execute(artworkId);
-
-
-        Assert.NotNull(artwork);
-
+        Assert.NotNull(artwork.DeletedAt);
     }
 }
