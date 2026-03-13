@@ -10,48 +10,26 @@ namespace Test.Services;
 public class DeleteArtworkCommentUseCaseTest
 {
     [Fact]
-    public async Task Should_Set_DeletedAt_When_Artwork_Is_Deleted()
+    public async Task Should_Set_DeletedAt_When_ArtworkComment_Is_Deleted()
     {
-        var artworkId = Guid.NewGuid();
+        var artworkCommentId = Guid.NewGuid();
 
         ArtworkComment artworkComment = new ArtworkCommentMock(
-            id: artworkId
+            id: artworkCommentId
         ).Create();
-       
 
         var mockRepo = new Mock<IRepository<ArtworkComment>>();
-        mockRepo.Setup(r => r.GetById(artworkId)).ReturnsAsync(artworkComment);
-        mockRepo.Setup(r => r.Update(It.IsAny<ArtworkComment>(), artworkId))
+        mockRepo.Setup(r => r.GetById(artworkCommentId)).ReturnsAsync(artworkComment);
+        mockRepo.Setup(r => r.Update(It.IsAny<ArtworkComment>(), artworkCommentId))
                 .Callback<ArtworkComment, Guid>((updated, id) => artworkComment = updated)
                 .Returns(Task.CompletedTask);
 
         var service = new MockService<ArtworkComment>(mockRepo.Object);
         var useCase = new DeleteArtworkCommentUseCase(service);
 
-        await useCase.Execute(artworkId);
+        await useCase.Execute(artworkCommentId);
 
         Assert.NotNull(artworkComment.DeletedAt);
         Assert.True(artworkComment.DeletedAt <= DateTime.UtcNow);
     }
-    //     public async Task Should_Throw_Exception_When_Artwork_Is_Not_Found()
-    // {
-    //     var artworkId = Guid.NewGuid();
-
-    //     ArtworkComment artworkComment = new ArtworkCommentMock(
-    //     ).Create();
-       
-
-    //     var mockRepo = new Mock<IRepository<ArtworkComment>>();
-    //     mockRepo.Setup(r => r.GetById(artworkId)).ReturnsAsync(artworkComment);
-    //     mockRepo.Setup(r => r.Update(It.IsAny<ArtworkComment>(), artworkId))
-    //             .Callback<ArtworkComment, Guid>((updated, id) => artworkComment = updated)
-    //             .Returns(Task.CompletedTask);
-
-    //     var service = new MockService<ArtworkComment>(mockRepo.Object);
-    //     var useCase = new DeleteArtworkCommentUseCase(service);
-
-    //     await useCase.Execute(artworkId);
-
-    //     Assert.IsType<Exception>(artwork);
-    // }
 }

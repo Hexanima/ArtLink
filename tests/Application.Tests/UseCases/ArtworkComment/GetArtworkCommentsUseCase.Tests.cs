@@ -10,27 +10,26 @@ namespace Test.Services;
 public class GetArtworkCommentsUseCaseTest
 {
     [Fact]
-    public async Task Should_Return_Artwork_When_Found()
+    public async Task Should_Return_ArtworkComments_When_Found()
     {
-        Artwork[] artworks=
+        ArtworkComment[] artworkComments =
         {
-            new ArtworkMock().Create(),
-            new ArtworkMock().Create(),
-            new ArtworkMock().Create()
+            new ArtworkCommentMock().Create(),
+            new ArtworkCommentMock().Create(),
+            new ArtworkCommentMock().Create()
         };
 
-        var mockRepo = new Mock<IRepository<Artwork>>();
+        var mockRepo = new Mock<IRepository<ArtworkComment>>();
 
         mockRepo.Setup(r => r.GetAll())
-                .ReturnsAsync(artworks.ToList());
-        
+                .ReturnsAsync(artworkComments.ToList());
 
-        var service = new MockService<Artwork>(mockRepo.Object);
-        var useCase = new GetArtworksUseCase(service);
+        var service = new MockService<ArtworkComment>(mockRepo.Object);
+        var useCase = new GetArtworkCommentsUseCase(service);
 
         var result = await useCase.Execute();
 
         Assert.True(result.IsSuccess);
-        Assert.Equal(artworks.Length, result.Value!.Length);
+        Assert.Equal(artworkComments.Length, result.Value!.Length);
     }
 }

@@ -25,11 +25,11 @@ public class UpdateArtworkCommentUseCaseTest
         var service = new MockService<ArtworkComment>(mockRepo.Object);
         var useCase = new UpdateArtworkCommentUseCase(service);
 
-        artworkComment.ArtworkName = "Updated Title";
+        artworkComment.Message = "Updated message";
         await useCase.Execute(artworkComment);
 
-        Assert.Equal("Updated Title", artworkComment.ArtworkName);
-        Assert.True(artworkComment.UpdatedAt > artworkComment   .CreatedAt);
+        Assert.Equal("Updated message", artworkComment.Message);
+        Assert.True(artworkComment.UpdatedAt > artworkComment.CreatedAt);
 
     }
 }
