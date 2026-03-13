@@ -15,7 +15,7 @@ public class MockService<T> : IService<T> where T : class, IEntity ,ITimestamped
     }
 
     public async Task<OperationResult<T>> GetById(Guid id)
-    {
+    {    
         T entity = await _repository.GetById(id);
 
             if(entity == null) return new OperationResult<T>(new Exception("not found"));
@@ -42,6 +42,7 @@ public class MockService<T> : IService<T> where T : class, IEntity ,ITimestamped
         if (existing == null)
             return new OperationResult(new Exception("Fail"));
 
+        update.UpdatedAt = DateTime.UtcNow;
         await _repository.Update(update, update.Id);
         return new OperationResult();
     }
@@ -58,13 +59,11 @@ public class MockService<T> : IService<T> where T : class, IEntity ,ITimestamped
 
     public Task<OperationResult<T[]>> GetMany(Query query)
     {
-        // Aquí puedes implementar lógica de filtrado según tu Query
         throw new NotImplementedException();
     }
 
     public Task<OperationResult<T>> GetOne(Query query)
     {
-        // Similar a GetMany pero retorna solo uno
         throw new NotImplementedException();
     }
 }

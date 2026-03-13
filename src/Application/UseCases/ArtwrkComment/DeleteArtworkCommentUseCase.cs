@@ -3,11 +3,11 @@ using Domain.Services;
 using Domain.Types;
 
 namespace Application.UseCases;
-public class DeleteArtworkUseCase
+public class DeleteArtworkCommentUseCase
 {
-    private readonly IService<Artwork> _service;
+    private readonly IService<ArtworkComment> _service;
 
-    public DeleteArtworkUseCase(IService<Artwork> service)
+    public DeleteArtworkCommentUseCase(IService<ArtworkComment> service)
     {
         _service = service;
     }
@@ -19,11 +19,11 @@ public class DeleteArtworkUseCase
             return new OperationResult(new ArgumentException("Id cannot be empty."));
         }
 
-        OperationResult<Artwork> existingArtworkResult = await _service.GetById(id);
+        OperationResult<ArtworkComment> existingArtworkCommentResult = await _service.GetById(id);
 
-        if (!existingArtworkResult.IsSuccess)
+        if (!existingArtworkCommentResult.IsSuccess)
         {
-            return new OperationResult(new Exception("Artwork  not found"));
+            return new OperationResult(new Exception("Artwork comment not found"));
         }
 
         return await _service.Delete(id);        
