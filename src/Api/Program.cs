@@ -1,12 +1,19 @@
+using Api.Data;
+using Api.Services;
+using Domain.Entities;
+using Domain.Services;
+using Microsoft.EntityFrameworkCore;
+using DataAppContext = Api.Data.AppContext;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddDbContext<DataAppContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=artlink.db"));
+builder.Services.AddScoped<IService<Artwork>, PostgreArtworkService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
