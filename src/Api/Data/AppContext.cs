@@ -6,6 +6,15 @@ namespace Api.Data
     public class AppContext : DbContext
     {
         public DbSet<ArtworkApi> ArtworkApi { get; set; }
+        public DbSet<ArtworkCommentApi> ArtworkCommentApi { get; set; }
+        public DbSet<ArtworkLikeApi> ArtworkLikeApi { get; set; }
+        public DbSet<ChatApi> ChatApi { get; set; }
+        public DbSet<ChatInviteApi> ChatInviteApi { get; set; }
+        public DbSet<ChatMessageApi> ChatMessageApi { get; set; }
+        public DbSet<ChatUserApi> ChatUserApi { get; set; }
+        public DbSet<ProvidedServiceApi> ProvidedServiceApi { get; set; }
+        public DbSet<ServiceApi> ServiceApi { get; set; }
+        public DbSet<UserApi> UserApi { get; set; }
 
         public AppContext(DbContextOptions<AppContext> options) : base(options)
         {

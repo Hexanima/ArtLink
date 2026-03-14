@@ -18,5 +18,10 @@ public class ArtworkApiConfiguration : IEntityTypeConfiguration<ArtworkApi>
                   .WithMany(u => u.ArtworkApis)
                   .HasForeignKey(e => e.UserId)
                   .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(e => e.Service)
+                .WithMany(s => s.ArtworkApis)
+                .HasForeignKey(e => e.ServiceId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
