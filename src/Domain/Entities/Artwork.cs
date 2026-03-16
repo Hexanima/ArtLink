@@ -15,4 +15,19 @@ public class Artwork : IEntity, ISoftDeletedEntity, ITimestampedEntity
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
+
+    public Artwork(Guid id, Guid userId, Guid serviceId, string artworkName, string description, string imageUrl, bool onSale, DateTime createdAt, DateTime updatedAt, DateTime? deletedAt)
+    {
+        Id = id;
+        UserId = userId;
+        ServiceId = serviceId;
+        ArtworkName = artworkName;
+        Description = description;
+        ImageUrl = imageUrl;
+        OnSale = onSale;
+        CreatedAt = createdAt;
+        UpdatedAt = updatedAt;
+        DeletedAt = deletedAt;
+    }
+
 }

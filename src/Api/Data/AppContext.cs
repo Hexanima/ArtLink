@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data
 {
-    public class AppContext : DbContext
+    public class AppDbContext : DbContext
     {
         public DbSet<ArtworkApi> ArtworkApi { get; set; }
         public DbSet<ArtworkCommentApi> ArtworkCommentApi { get; set; }
@@ -16,7 +16,7 @@ namespace Api.Data
         public DbSet<ServiceApi> ServiceApi { get; set; }
         public DbSet<UserApi> UserApi { get; set; }
 
-        public AppContext(DbContextOptions<AppContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
@@ -24,7 +24,7 @@ namespace Api.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
 }

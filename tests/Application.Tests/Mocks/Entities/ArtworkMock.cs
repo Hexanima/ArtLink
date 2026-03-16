@@ -40,19 +40,18 @@ public ArtworkMock(
     DeletedAt = deletedAt;
 }
         public Artwork Create(){
-        Artwork result = new Artwork
-         {
-            Id = Id ,
-            ArtworkName = ArtworkName ,
-            Description = Description,
-            ImageUrl = ImageUrl ,
-            UserId = UserId ,
-            ServiceId = ServiceId ,
-            OnSale = OnSale,
-            CreatedAt = CreatedAt ,
-            UpdatedAt = UpdatedAt ,
-            DeletedAt = DeletedAt 
-        };
+        Artwork result = new Artwork(
+            id: Id ,
+            userId: UserId ,
+            serviceId: ServiceId ,
+            artworkName: ArtworkName ,
+            description: Description,
+            imageUrl: ImageUrl ,
+            onSale: OnSale,
+            createdAt: CreatedAt ,
+            updatedAt: UpdatedAt ,
+            deletedAt: DeletedAt 
+        );
         return result;
         }
 

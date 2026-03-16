@@ -3,14 +3,14 @@ using Api.Services;
 using Domain.Entities;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
-using DataAppContext = Api.Data.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<DataAppContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=artlink.db"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=Data/Data.db"));
 builder.Services.AddScoped<IService<Artwork>, PostgreArtworkService>();
+
 
 var app = builder.Build();
 
