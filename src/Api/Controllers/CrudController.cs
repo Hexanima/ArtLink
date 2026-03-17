@@ -4,31 +4,21 @@ using Domain.Services;
 using Domain.Types;
 
 [ApiController]
-[Route("api/[controller]")]
-public class CrudController<TEntity, TDto> : ControllerBase where TEntity : IEntity
+public class CrudController<T, TDto> : ControllerBase where T : IEntity
 {
-    protected readonly IService<TEntity> _service;
+     private readonly IGetByIdUseCase<T> _getById;
+     private readonly IDeleteUseCase<T> _delete;
 
-    public CrudController(IService<TEntity> service)
+    public CrudController(IGetByIdUseCase<T> getById, IDeleteUseCase<T> delete)
     {
-        _service = service;
+        _getById = getById;
+        _delete = delete;
+
     }
-
-    [HttpGet]
-    public virtual async Task<IActionResult> GetAll()
-    {
-        var result = await _service.GetAll();
-
-        if (!result.IsSuccess)
-            return BadRequest(result.Error?.Message);
-
-        return Ok(result.Value);
-    }
-
     [HttpGet("{id}")]
-    public virtual async Task<IActionResult> Get(Guid id)
+    public virtual async Task<IActionResult> GetById(Guid id)
     {
-        var result = await _service.Get(id);
+        var result = await _getById.Execute(id);
 
         if (!result.IsSuccess)
             return NotFound(result.Error?.Message);
@@ -36,39 +26,15 @@ public class CrudController<TEntity, TDto> : ControllerBase where TEntity : IEnt
         return Ok(result.Value);
     }
 
-    [HttpPost]
-    [Authorize]
-    public virtual async Task<IActionResult> Create([FromBody] TEntity entity)
-    {
-        var result = await _service.Create(entity);
-
-        if (!result.IsSuccess)
-            return BadRequest(result.Error?.Message);
-
-        return Ok();
-    }
-
-    [HttpPut("{id}")]
-    [Authorize]
-    public virtual async Task<IActionResult> Update(Guid id, [FromBody] TEntity entity)
-    {
-        var result = await _service.Update(entity);
-
-        if (!result.IsSuccess)
-            return BadRequest(result.Error?.Message);
-
-        return Ok();
-    }
-
     [HttpDelete("{id}")]
-    [Authorize]
     public virtual async Task<IActionResult> Delete(Guid id)
     {
-        var result = await _service.Delete(id);
+        var result = await _delete.Execute(id);
 
         if (!result.IsSuccess)
-            return BadRequest(result.Error?.Message);
+            return NotFound(result.Error?.Message);
 
-        return Ok();
+        return Ok(result.Value);
     }
+ 
 }

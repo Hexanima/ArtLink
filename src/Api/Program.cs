@@ -9,7 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=Data/Data.db"));
+
 builder.Services.AddScoped<IService<Artwork>, PostgreArtworkService>();
+
+
+builder.Services.AddScoped(typeof(IService<>), typeof(PostgreService<>));
+builder.Services.AddScoped(typeof(IGetByIdUseCase<>), typeof(GetByIdUseCase<>));
+
+
 
 
 var app = builder.Build();

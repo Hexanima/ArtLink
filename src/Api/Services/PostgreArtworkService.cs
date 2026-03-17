@@ -278,19 +278,18 @@ public class PostgreArtworkService : IService<Artwork>
 
     private static Artwork ToDomainEntity(ArtworkApi artwork)
     {
-        return new Artwork
-        {
-            Id = artwork.Id,
-            OnSale = artwork.OnSale,
-            UserId = artwork.UserId,
-            ServiceId = artwork.ServiceId,
-            ArtworkName = artwork.ArtworkName,
-            Description = artwork.Description,
-            ImageUrl = artwork.ImageUrl,
-            CreatedAt = artwork.CreatedAt,
-            UpdatedAt = artwork.UpdatedAt,
-            DeletedAt = artwork.DeletedAt
-        };
+    return new Artwork(
+        artwork.Id,
+        artwork.UserId,
+        artwork.ServiceId,
+        artwork.ArtworkName,
+        artwork.Description,
+        artwork.ImageUrl,
+        artwork.OnSale,
+        artwork.CreatedAt,
+        artwork.UpdatedAt,
+        artwork.DeletedAt
+    );
     }
 
     private static ArtworkApi ToApiEntity(Artwork artwork)
