@@ -1,9 +1,10 @@
-using Domain.Entities;
 using Domain.Services;
 using Domain.Types;
+using Application.UseCases.Base.Interfaces;
 
-namespace Application.UseCases;
-public class DeleteUseCase<T> where T : IEntity
+namespace Application.UseCases.Base.Implementation;
+
+public class DeleteUseCase<T> : IDeleteUseCase<T> where T : IEntity
 {
     private readonly IService<T> _service;
 
@@ -28,5 +29,4 @@ public class DeleteUseCase<T> where T : IEntity
 
         return await _service.Delete(id);        
     }
-    
 }

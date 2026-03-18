@@ -52,3 +52,47 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Database files (SQLite)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+Data/Data.db
+
+# Local configuration files
+appsettings.local.json
+appsettings.Development.local.json
+appsettings.*.local.json
+
+# Sensitive data
+secrets.json
+*.pfx
+*.pem
+*.key
+
+# OS files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Rider IDE
+.idea_modules/
+*.iml
+*.iws
+*.ipr
+*.riderignore
+.idea/
+
+# VS Code
+.vscode/
+*.code-workspace

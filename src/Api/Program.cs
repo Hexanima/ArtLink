@@ -1,12 +1,40 @@
 using Api.Data;
 using Api.Services;
+using Api.Mappers;
 using Domain.Entities;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using Application.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+
+// Agregar controladores
+builder.Services.AddControllers();
+
+// Registrar mappers
+builder.Services.AddScoped<IMapper<ArtworkDTO, Artwork>, ArtworkMapper>();
+
+// Configurar CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()      // Permitir cualquier origen
+              .AllowAnyMethod()      // Permitir cualquier método (GET, POST, etc)
+              .AllowAnyHeader();     // Permitir cualquier header
+    });
+    
+    // Opcional: Política más restrictiva para producción
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=Data/Data.db"));
 
@@ -14,12 +42,21 @@ builder.Services.AddScoped<IService<Artwork>, PostgreArtworkService>();
 
 
 builder.Services.AddScoped(typeof(IService<>), typeof(PostgreService<>));
-builder.Services.AddScoped(typeof(IGetByIdUseCase<>), typeof(GetByIdUseCase<>));
+
+// Registrar casos de uso genéricos - Application.UseCases.Base.Interfaces/Implementation
+builder.Services.AddScoped(typeof(Application.UseCases.Base.Interfaces.IGetAllUseCase<>), typeof(Application.UseCases.Base.Implementation.GetAllUseCase<>));
+builder.Services.AddScoped(typeof(Application.UseCases.Base.Interfaces.IGetByIdUseCase<>), typeof(Application.UseCases.Base.Implementation.GetByIdUseCase<>));
+builder.Services.AddScoped(typeof(Application.UseCases.Base.Interfaces.ICreateUseCase<>), typeof(Application.UseCases.Base.Implementation.CreateUseCase<>));
+builder.Services.AddScoped(typeof(Application.UseCases.Base.Interfaces.IUpdateUseCase<>), typeof(Application.UseCases.Base.Implementation.UpdateUseCase<>));
+builder.Services.AddScoped(typeof(Application.UseCases.Base.Interfaces.IDeleteUseCase<>), typeof(Application.UseCases.Base.Implementation.DeleteUseCase<>));
 
 
 
 
 var app = builder.Build();
+
+// Aplicar CORS
+app.UseCors("AllowAll");  // En desarrollo usamos AllowAll, en producción cambiar a "AllowFrontend"
 
 if (app.Environment.IsDevelopment())
 {
@@ -27,6 +64,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 
 var summaries = new[]
 {

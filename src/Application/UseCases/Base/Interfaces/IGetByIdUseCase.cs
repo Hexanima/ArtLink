@@ -1,11 +1,8 @@
 using Domain.Types;
 
-public interface IGetByIdUseCase<T> where T : IEntity
-{
-    Task<OperationResult<T>> Execute(Guid id);
-}
+namespace Application.UseCases.Base.Interfaces;
 
-public interface IDeleteUseCase<T> where T : IEntity
+public interface IGetByIdUseCase<T> where T : IEntity
 {
     Task<OperationResult<T>> Execute(Guid id);
 }

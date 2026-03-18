@@ -1,7 +1,10 @@
 using Domain.Services;
 using Domain.Types;
+using Application.UseCases.Base.Interfaces;
 
-public class GetByIdUseCase<T>where T : IEntity
+namespace Application.UseCases.Base.Implementation;
+
+public class GetByIdUseCase<T> : IGetByIdUseCase<T> where T : IEntity
 {
     private readonly IService<T> _service;
 
@@ -14,7 +17,6 @@ public class GetByIdUseCase<T>where T : IEntity
     {
         var entity = await _service.GetById(id);
 
-     
         if (!entity.IsSuccess || entity.Value == null)
         {
             return new OperationResult<T>(new Exception("Entity not found"));
