@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 
 // Registrar mappers
 builder.Services.AddScoped<IMapper<ArtworkDTO, Artwork>, ArtworkMapper>();
+builder.Services.AddScoped<IMapper<ServiceDTO, Service>, ServiceMapper>();
 
 // Configurar CORS
 builder.Services.AddCors(options =>
@@ -39,6 +40,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=Data/Data.db"));
 
 builder.Services.AddScoped<IService<Artwork>, PostgreArtworkService>();
+builder.Services.AddScoped<IService<Service>, PostgreServiceService>();
 
 
 builder.Services.AddScoped(typeof(IService<>), typeof(PostgreService<>));

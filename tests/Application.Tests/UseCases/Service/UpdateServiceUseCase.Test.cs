@@ -1,4 +1,4 @@
-using Application.UseCases;
+using Application.UseCases.Services;
 using Domain.Entities;
 using Domain.Services;
 using Moq;

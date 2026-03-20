@@ -1,9 +1,11 @@
 using Domain.Entities;
 using Domain.Services;
 using Domain.Types;
+using Application.UseCases.Base.Interfaces;
 
-namespace Application.UseCases;
-public class DeleteServiceUseCase
+namespace Application.UseCases.Services;
+
+public class DeleteServiceUseCase : IDeleteUseCase<Service>
 {
     private readonly IService<Service> _service;
 
